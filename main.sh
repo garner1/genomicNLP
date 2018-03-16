@@ -58,22 +58,37 @@ workdir=$PWD
 ###############
 # STARTING WITH A DEDUPLICATED BAM FILE, PREPARE A DOCUMENT
 ############### 
-mkdir -p "$datadir"/experiment
-rm -f "$datadir"/experiment/*
-cd "$datadir"/experiment
-bedtools intersect -b $bamfile -a $source_bamfile | samtools view - | cut -f1,10 > tag-seq.txt # extract tag and sequence from experiment
-bedtools intersect -b $bamfile -a $source_bamfile | bedtools bamtobed -i - > experiment.bed # get locations of the experiment sequences
-LC_ALL=C join --nocheck-order -1 4 -2 1 experiment.bed tag-seq.txt | awk '{print $2,$3,$4,$5,$6,$7,$1}' | tr ' ' '\t' > loc-seq.bed # get the experimental loc and sequence
-cat loc-seq.bed | awk '{OFS="\t"; $2=$2-100;$3=$3+100; print $1,$2,$3,$4,$5,$6}' | awk '$2>0' > loc_extended-seq.exp.bed # extend the experimental location
-cat loc_extended-seq.exp.bed | awk '{OFS="\t"; $2=$2+100;$3=$3-100; print $1,$2,$3,$4,$5,$6}' > loc-seq.bed
-bedtools getfasta -fi $ref -bed loc_extended-seq.exp.bed |
-    tr '[:lower:]' '[:upper:]' | sed -e 's/^>CHR/>chr/' > loc_extended-seq.ref.fa # get the reference sequence associated to experimental extended seq
-bioawk -c fastx '{print $name"\t"$seq}' loc_extended-seq.ref.fa | tr ':-' '\t\t' > loc_extended-seq.ref.bed # transform fasta to bed
-paste loc_extended-seq.ref.bed loc-seq.bed | awk '{OFS="\t";print $1,$2,$3,substr($4,1,$6-$2)$10substr($4,$7-$2+1,$3-$7)}' > loc_extended-seq_extended.exp.bed # substituted exp seq into reference
-rm loc_extended-seq.ref.fa loc-seq.bed loc_extended-seq.exp.bed experiment.bed tag-seq.txt # clean directory
-cd $workdir
+# mkdir -p "$datadir"/experiment
+# rm -f "$datadir"/experiment/*
+# cd "$datadir"/experiment
+# bedtools intersect -b $bamfile -a $source_bamfile | samtools view - | cut -f1,10 > tag-seq.txt # extract tag and sequence from experiment
+# bedtools intersect -b $bamfile -a $source_bamfile | bedtools bamtobed -i - > experiment.bed # get locations of the experiment sequences
+# LC_ALL=C join --nocheck-order -1 4 -2 1 experiment.bed tag-seq.txt | awk '{print $2,$3,$4,$5,$6,$7,$1}' | tr ' ' '\t' > loc-seq.bed # get the experimental loc and sequence
+# cat loc-seq.bed | awk '{OFS="\t"; $2=$2-100;$3=$3+100; print $1,$2,$3,$4,$5,$6}' | awk '$2>0' > loc_extended-seq.exp.bed # extend the experimental location
+# cat loc_extended-seq.exp.bed | awk '{OFS="\t"; $2=$2+100;$3=$3-100; print $1,$2,$3,$4,$5,$6}' > loc-seq.bed
+# bedtools getfasta -fi $ref -bed loc_extended-seq.exp.bed |
+#     tr '[:lower:]' '[:upper:]' | sed -e 's/^>CHR/>chr/' > loc_extended-seq.ref.fa # get the reference sequence associated to experimental extended seq
+# bioawk -c fastx '{print $name"\t"$seq}' loc_extended-seq.ref.fa | tr ':-' '\t\t' > loc_extended-seq.ref.bed # transform fasta to bed
+# paste loc_extended-seq.ref.bed loc-seq.bed | awk '{OFS="\t";print $1,$2,$3,substr($4,1,$6-$2)$10substr($4,$7-$2+1,$3-$7)}' > loc_extended-seq_extended.exp.bed # substituted exp seq into reference
+# rm loc_extended-seq.ref.fa loc-seq.bed loc_extended-seq.exp.bed experiment.bed tag-seq.txt # clean directory
+# cd $workdir
 
+# echo "Tokenize experimental and reference sequences"
+# cd $datadir/experiment
+# awk '{print $4 > $1".expdoc"}' loc_extended-seq_extended.exp.bed # extract sequence
+# awk '{print $4 > $1".refdoc"}' loc_extended-seq.ref.bed		 # extract sequence
+# parallel "$workdir/module/mean {} ../6mer/{.}.table.tsv | cut -d' ' -f2- > ../docs/{.}.exp.txt" ::: *.expdoc # segment sequence
+# parallel "$workdir/module/mean {} ../6mer/{.}.table.tsv | cut -d' ' -f2- > ../docs/{.}.ref.txt" ::: *.refdoc # segment sequence
+# awk '{print $1":"$2"-"$3 > $1".locations"}' loc_extended-seq_extended.exp.bed
+# parallel "paste -d '|' {} ../docs/{.}.exp.txt ../docs/{.}.ref.txt > ../docs/{.}.loc-docs" ::: chr*.locations
+# cd $workdir
 
+# echo "Compare experimental and reference documents"
+# cd $datadir/docs
+# parallel "python $workdir/module/compare-experiment2reference.py {}" ::: chr{?,??}.loc-docs
+# mv ../experiment/chr{?,??}.locations .
+# parallel "paste {} {.}.loc-docs.signal | tr ' ' '\t' > {.}.signal.bed" ::: chr{?,??}.locations
+# cd $workdir
 ###################################################
 # wd=$PWD
 # for dir in $( ls $datadir/restseq_plus );do

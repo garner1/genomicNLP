@@ -6,7 +6,7 @@ import numpy as np
 from numpy import linalg as LA
 import sys
 
-model = gensim.models.Word2Vec.load('/home/garner1/Work/dataset/rest2vec/modelPlus')
+model = gensim.models.Word2Vec.load('/home/garner1/Work/dataset/genomicNLP/model')
 
 # infile = '/home/garner1/Work/dataset/rest2vec/restseq_plus/ACGACATC/chr10.loc-docs'
 infile = sys.argv[1]

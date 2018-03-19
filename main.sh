@@ -1,97 +1,185 @@
 #!/usr/bin/env bash
 
-datadir=$1
-cutsite=$2			# the restriction enzyme cutsite we are using
-ref=$3				# the reference genome
-bamfile=$4			# restseq deduplicated bam file
-source_bamfile=$5		# restseq file with sequence, in case of merged libraries this file has to be the merged bam file
+# bash process_reference.sh /home/garner1/Work/dataset/genomicNLP AAGCTT /home/garner1/Work/genomes/hg19.fa
 
-workdir=$PWD
+# barcode=ACGACATC
+# exp=M1A-1_XZ31_"$barcode"
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-##############
-# PROVIDE A bed FILE ASSOCIATED TO A CUTSITE NEIGHBOROUGH
-##############
-mkdir -p $datadir
-cd $datadir
-bash /home/garner1/Dropbox/pipelines/aux.scripts/script_split_genome_wrt_enzyme.sh $ref $cutsite # produce the cutsite bed file
-awk '{OFS="\t";print $1,$2-100,$3+100}' $cutsite.bed | awk '$2>0' > "$cutsite"_larger.bed    # enlarge the cutsite bedfile to a neighbourough
-bedtools getfasta -fi $ref -bed "$cutsite"_larger.bed -bedOut -s |
-    tr '[:lower:]' '[:upper:]' |
-    sed -e 's/^CHR/chr/' |
-    LC_ALL=C grep -v N > refExtendedDoc.bed # create the bed file associated to the cutsite
-##############
-# PROCESS THE REFERENCE BED FILE TO GENERATE A WORD2VEC MODEL 
-##############
-echo 'Prepare kmer table'                          
-g++ -std=c++11 $workdir/module/kmers.cpp -o $workdir/module/kmers # compile kmers
-cd $datadir
-awk '{print $4 >> $1; close($1)}' refExtendedDoc.bed # split by chromosome 
-parallel "sed -i 's/$/NNNNNN/' {}" ::: chr* #introduce the Ns to count the kmers
+# barcode=TGATGATC
+# exp=M1A-2_XZ31_TGATGATC
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-echo "Count kmers ..."
-mkdir -p "$datadir"/6mer
-rm -f "$datadir"/6mer/*
-cd $datadir
-parallel "cat {} | tr -d '\n' | $workdir/module/kmers 6 6 |LC_ALL=C grep -v 'N' | awk 'NF == 2' > 6mer/{}.tsv" ::: chr*
+# barcode=CATCATCC
+# exp=M1A-3_XZ31_CATCATCC
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-echo "Prepare information tables ..."
-cd $datadir/6mer                            
-parallel "bash $workdir/module/parse_kmer_table.sh {} 6 1.0" ::: chr{?,??}.tsv                                    
-rm *kmer*                                          
-rename 's/tsv.table.tsv/table.tsv/' *tsv           
+# barcode=GTCGTTCC
+# exp=M1A-4_XZ31_GTCGTTCC
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-echo "Tokenize the documents"
-mkdir -p "$datadir"/docs
-# SEGMENT THE GENOME
-g++ -std=c++11 $workdir/module/tokenizer_withMean.cpp -o $workdir/module/mean # compile the tokenizer 
-cd $datadir
-parallel "sed -i 's/NNNNNN//' {}" ::: chr*
-parallel "$workdir/module/mean {} 6mer/{.}.table.tsv | cut -d' ' -f2- > docs/{.}.txt" ::: chr*
+# barcode=ACGACTCC
+# exp=M1A-5_XZ31_ACGACTCC
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-echo "Run word2vec on the reference corpus ..."    
-python $workdir/module/word2vector.py $datadir/docs $datadir/model
+# barcode=TGATGGAA
+# exp=M1B-5_XZ31_TGATGGAA
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-#######################
-#### STARTING WITH A DEDUPLICATED BAM FILE, PREPARE A DOCUMENT
-#######################
-mkdir -p "$datadir"/experiment
-rm -f "$datadir"/experiment/*
-cd "$datadir"/experiment
-bedtools intersect -b $bamfile -a $source_bamfile | samtools view - | cut -f1,10 > tag-seq.txt # extract tag and sequence from experiment
-bedtools intersect -b $bamfile -a $source_bamfile | bedtools bamtobed -i - > experiment.bed # get locations of the experiment sequences
-LC_ALL=C join --nocheck-order -1 4 -2 1 experiment.bed tag-seq.txt | awk '{print $2,$3,$4,$5,$6,$7,$1}' | tr ' ' '\t' > loc-seq.bed # get the experimental loc and sequence
-cat loc-seq.bed | awk '{OFS="\t"; $2=$2-100;$3=$3+100; print $1,$2,$3,$4,$5,$6}' | awk '$2>0' > loc_extended-seq.exp.bed # extend the experimental location
-cat loc_extended-seq.exp.bed | awk '{OFS="\t"; $2=$2+100;$3=$3-100; print $1,$2,$3,$4,$5,$6}' > loc-seq.bed
-bedtools getfasta -fi $ref -bed loc_extended-seq.exp.bed |
-    tr '[:lower:]' '[:upper:]' | sed -e 's/^>CHR/>chr/' > loc_extended-seq.ref.fa # get the reference sequence associated to experimental extended seq
-bioawk -c fastx '{print $name"\t"$seq}' loc_extended-seq.ref.fa | tr ':-' '\t\t' > loc_extended-seq.ref.bed # transform fasta to bed
-paste loc_extended-seq.ref.bed loc-seq.bed | awk '{OFS="\t";print $1,$2,$3,substr($4,1,$6-$2)$10substr($4,$7-$2+1,$3-$7)}' > loc_extended-seq_extended.exp.bed # substituted exp seq into reference
-rm loc_extended-seq.ref.fa loc-seq.bed loc_extended-seq.exp.bed experiment.bed tag-seq.txt # clean directory
+# barcode=TCACACGC
+# exp=M1B-6_XZ31_TCACACGC
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-echo "Tokenize experimental and reference sequences"
-cd $datadir/experiment
-awk '{print $4 > $1".expdoc"}' loc_extended-seq_extended.exp.bed # extract sequence
-awk '{print $4 > $1".refdoc"}' loc_extended-seq.ref.bed		 # extract sequence
-parallel "$workdir/module/mean {} ../6mer/{.}.table.tsv | cut -d' ' -f2- > ../docs/{.}.exp.txt" ::: *.expdoc # segment sequence
-parallel "$workdir/module/mean {} ../6mer/{.}.table.tsv | cut -d' ' -f2- > ../docs/{.}.ref.txt" ::: *.refdoc # segment sequence
-awk '{print $1":"$2"-"$3 > $1".locations"}' loc_extended-seq_extended.exp.bed
-parallel "paste -d '|' {} ../docs/{.}.exp.txt ../docs/{.}.ref.txt > ../docs/{.}.loc-docs" ::: chr*.locations
+# barcode=GTCGTCGC
+# exp=T1-2_XZ31_GTCGTCGC
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-echo "Compare experimental and reference documents"
-cd $datadir/docs
-parallel "python $workdir/module/compare-experiment2reference.py {}" ::: chr{?,??}.loc-docs
-mv ../experiment/chr{?,??}.locations .
-parallel "paste {} {.}.loc-docs.signal | tr ' ' '\t' > {.}.signal.bed" ::: chr{?,??}.locations
+# barcode=ACGACCGC
+# exp=T1-3_XZ31_ACGACCGC
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-echo "Binning the genome and plotting the experiment/reference dissimilarity..."
-cd $datadir
-window=100000
-genome=hg19
-sliding=50000
-bash ~/Work/pipelines/aux.scripts/fetchChromSizes.sh $genome | grep -v "_" > sizes
-# bedtools makewindows -g sizes -w "$window" -s "$sliding" -i winnum > "$window"_"$genome"
-bedtools makewindows -g sizes -w "$window" -i winnum > "$window"_"$genome"
-cd docs
-parallel "grep -v 'nan' {} | tr ':-' '\t\t'| sponge {}" ::: chr*.signal.bed
-parallel "bedtools intersect -a $datadir/"$window"_"$genome" -b {} -wa -wb | datamash -s -g 1,2,3 median 8 | sort -k2,2n > {}.binned" ::: chr*.signal.bed
-# TO PLOT THE RESULT:  cat chr1.signal.bed.binned|cut -f2,4 |gnuplot -p -e "plot '/dev/stdin' using 1:2"
+# barcode=CATCAATC
+# exp=T1-5_XZ31_CATCAATC
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/hg19.fa
+# bamfile=~/Work/dataset/CNV/bamfiles/patient_1/selection/"$exp".bam
+# source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+# bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+###########################################
+barcode=TCACAGAG
+exp=M2A-1_XZ31_TCACAGAG
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+barcode=GACACGAG
+exp=M2A-3_XZ31_GACACGAG
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+barcode=TAGGTCGC
+exp=M2B-1_XZ31_TAGGTCGC
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+barcode=CTAACTCA
+exp=M2B-2_XZ31_CTAACTCA
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+barcode=GCTTGTCA
+exp=M2B-3_XZ31_GCTTGTCA
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+barcode=ATGTGCGC
+exp=T2-2_XZ31_ATGTGCGC
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+barcode=TCACATCA
+exp=T2-3_XZ31_TCACATCA
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+barcode=CGTGTTCA
+exp=T2-4_XZ31_CGTGTTCA
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+barcode=GACACTCA
+exp=T2-5_XZ31_GACACTCA
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+barcode=ATGTGTCA
+exp=T2-6_XZ31_ATGTGTCA
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/hg19.fa
+bamfile=~/Work/dataset/CNV/bamfiles/patient_2/selection/"$exp".bam
+source_bamfile=/media/bicroserver_2-seq/RESTSEQ_PIPELINE_OUTPUT/XZ31/outdata/"$barcode".sorted.bam
+bash process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+

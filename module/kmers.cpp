@@ -23,7 +23,7 @@ int main (int argc, char** argv) {
     long long totalchrs = 0;
     map<string, long long> kmers;
     
-    while (cin.good()) {
+    while (cin.good()) {	// read row by row
 	cin.get(c);
 	if (cin.good()) {
 	    ++totalchrs;
@@ -32,8 +32,8 @@ int main (int argc, char** argv) {
 	    }
 	    buf.append(1, c);
 	    for (int i = kmermin; i <= (int) buf.size(); ++i) {
-		string kmer = buf.substr(buf.size() - i, i);
-		++kmers[kmer];
+		string kmer = buf.substr(buf.size() - i, i); // sliding window of size i over input stream row
+		++kmers[kmer];				     // add counts to table
 	    }
 	}
     }

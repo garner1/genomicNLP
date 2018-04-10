@@ -13,4 +13,4 @@ awk -v dim="$dim" '{OFS="\t";print $2,substr($1,1,dim-1)}' "$filein" |
 LC_ALL=C datamash -s -g 2 sum 1 > "$filein"_kmer-sumCount.tsv # produce the normalization for each k-1 mer
 
 LC_ALL=C join -1 2 -2 1 -o 1.2,1.3,1.1,2.2 "$filein"_count-kmer-kmer.tsv "$filein"_kmer-sumCount.tsv |
-awk -v alpha=$alpha '{OFS="\t"; print $1$2,-log(($3+alpha)/($4+alpha*4))}' > "$filein".table.tsv # use the alpha-estimator
+awk -v alpha=$alpha '{OFS="\t"; print $1$2,-log(($3+alpha)/($4+alpha*4))}' > "$filein".table.tsv # use the alpha-estimator for the probability P of the next outcome and then evaluate -log(P)

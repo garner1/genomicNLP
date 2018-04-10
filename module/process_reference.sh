@@ -5,11 +5,11 @@ cutsite=$2			# the restriction enzyme cutsite we are using
 ref=$3				# the reference genome
 
 workdir=$PWD
+mkdir -p $datadir_ref
 
 ##############
 # PROVIDE A bed FILE ASSOCIATED TO A CUTSITE NEIGHBOROUGH
 ##############
-mkdir -p $datadir_ref
 cd $datadir_ref
 bash /home/garner1/Dropbox/pipelines/aux.scripts/script_split_genome_wrt_enzyme.sh $ref $cutsite # produce the cutsite bed file
 awk '{OFS="\t";print $1,$2-100,$3+100}' $cutsite.bed | awk '$2>0' > "$cutsite"_larger.bed    # enlarge the cutsite bedfile to a neighbourough

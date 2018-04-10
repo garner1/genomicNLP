@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 
-bash module/process_reference.sh /home/garner1/Work/dataset/genomicNLP AAGCTT /home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+# bash module/process_reference.sh /home/garner1/Work/dataset/genomicNLP AAGCTT /home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
 
+barcode=ACGACATC
+exp=XZ31_"$barcode"
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+bamfile=/home/garner1/Work/dataset/reduced_sequencing/XZ31/outdata/ACGACATC.deduplicated.bam
+source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/XZ31/outdata/ACGACATC.sorted.bam
+bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+##################################################################
 # barcode=ACGACATC
 # exp=M1A-1_XZ31_"$barcode"
 # datadir_exp=/home/garner1/Work/dataset/genomicNLP/"$exp"

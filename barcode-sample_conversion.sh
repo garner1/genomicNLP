@@ -3,7 +3,7 @@
 dict=$1				# barcode-sample dictionary
 
 # The directory needs to be hard coded
-for i in $( ls -d /home/garner1/Work/dataset/genomicNLP/XZ37_* ); do
+for i in $( ls -d /home/garner1/Work/dataset/genomicNLP/XZ63_* ); do # !!!!!PICK THE PROPER DIR!!!!!
     barcode=`echo $i | cut -d'_' -f2`
     name=`echo $i | cut -d'_' -f1`
     sample=`cat $dict | grep $barcode | cut -f2`

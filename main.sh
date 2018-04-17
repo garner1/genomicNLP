@@ -2,83 +2,204 @@
 
 # bash module/process_reference.sh /home/garner1/Work/dataset/genomicNLP AAGCTT /home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
 
-sample=XZ33
-while read line; do
-    barcode=$line
-    exp="$sample"_"$barcode"
-    datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
-    datadir_ref=/home/garner1/Work/dataset/genomicNLP
-    ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
-    bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
-    source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
-    echo "Start with experiment " $exp
-    time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
-done < barcodes_$sample
+sample=XZ68
+barcode=GTCGTCGC
+exp="$sample"_"$barcode"
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+echo "Start with experiment " $exp
+time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-sample=XZ37
-while read line; do
-    barcode=$line
-    exp="$sample"_"$barcode"
-    datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
-    datadir_ref=/home/garner1/Work/dataset/genomicNLP
-    ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
-    bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
-    source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
-    echo "Start with experiment " $exp
-    time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
-done < barcodes_$sample
+sample=XZ69
+barcode=ACGACCGC
+exp="$sample"_"$barcode"
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+echo "Start with experiment " $exp
+time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-sample=XZ38
-while read line; do
-    barcode=$line
-    exp="$sample"_"$barcode"
-    datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
-    datadir_ref=/home/garner1/Work/dataset/genomicNLP
-    ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
-    bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
-    source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
-    echo "Start with experiment " $exp
-    time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
-done < barcodes_$sample
+sample=XZ70
+barcode=TGATGCGC
+exp="$sample"_"$barcode"
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+echo "Start with experiment " $exp
+time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-sample=XZ43
-while read line; do
-    barcode=$line
-    exp="$sample"_"$barcode"
-    datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
-    datadir_ref=/home/garner1/Work/dataset/genomicNLP
-    ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
-    bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
-    source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
-    echo "Start with experiment " $exp
-    time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
-done < barcodes_$sample
+sample=XZ71
+barcode=CATCAATC
+exp="$sample"_"$barcode"
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+echo "Start with experiment " $exp
+time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-sample=XZ45
-while read line; do
-    barcode=$line
-    exp="$sample"_"$barcode"
-    datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
-    datadir_ref=/home/garner1/Work/dataset/genomicNLP
-    ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
-    bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
-    source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
-    echo "Start with experiment " $exp
-    time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
-done < barcodes_$sample
+sample=XZ72
+barcode=GTCGTATC
+exp="$sample"_"$barcode"
+datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+datadir_ref=/home/garner1/Work/dataset/genomicNLP
+ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+echo "Start with experiment " $exp
+time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
 
-sample=XZ63
-while read line; do
-    barcode=$line
-    exp="$sample"_"$barcode"
-    datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
-    datadir_ref=/home/garner1/Work/dataset/genomicNLP
-    ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
-    bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
-    source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
-    echo "Start with experiment " $exp
-    time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
-done < barcodes_$sample
+# sample=XZ64
+# barcode=CATCACGC
+# exp="$sample"_"$barcode"
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+# bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+# source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+# echo "Start with experiment " $exp
+# time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+# sample=XZ74
+# barcode=CATCATCC
+# exp="$sample"_"$barcode"
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+# bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+# source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+# echo "Start with experiment " $exp
+# time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+# sample=XZ75
+# barcode=TCACACGC
+# exp="$sample"_"$barcode"
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+# bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+# source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+# echo "Start with experiment " $exp
+# time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+# sample=XZ76
+# barcode=TCACAGAG
+# exp="$sample"_"$barcode"
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+# bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+# source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+# echo "Start with experiment " $exp
+# time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+# sample=XZ77
+# barcode=CTAACTCA
+# exp="$sample"_"$barcode"
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+# bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+# source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+# echo "Start with experiment " $exp
+# time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+
+# sample=XZ78
+# barcode=GAATCCGA
+# exp="$sample"_"$barcode"
+# datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+# datadir_ref=/home/garner1/Work/dataset/genomicNLP
+# ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+# bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+# source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+# echo "Start with experiment " $exp
+# time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+###############################################################################
+# sample=XZ33
+# while read line; do
+#     barcode=$line
+#     exp="$sample"_"$barcode"
+#     datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+#     datadir_ref=/home/garner1/Work/dataset/genomicNLP
+#     ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+#     bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+#     source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+#     echo "Start with experiment " $exp
+#     time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+# done < barcodes_$sample
+
+# sample=XZ37
+# while read line; do
+#     barcode=$line
+#     exp="$sample"_"$barcode"
+#     datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+#     datadir_ref=/home/garner1/Work/dataset/genomicNLP
+#     ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+#     bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+#     source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+#     echo "Start with experiment " $exp
+#     time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+# done < barcodes_$sample
+
+# sample=XZ38
+# while read line; do
+#     barcode=$line
+#     exp="$sample"_"$barcode"
+#     datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+#     datadir_ref=/home/garner1/Work/dataset/genomicNLP
+#     ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+#     bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+#     source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+#     echo "Start with experiment " $exp
+#     time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+# done < barcodes_$sample
+
+# sample=XZ43
+# while read line; do
+#     barcode=$line
+#     exp="$sample"_"$barcode"
+#     datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+#     datadir_ref=/home/garner1/Work/dataset/genomicNLP
+#     ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+#     bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+#     source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+#     echo "Start with experiment " $exp
+#     time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+# done < barcodes_$sample
+
+# sample=XZ45
+# while read line; do
+#     barcode=$line
+#     exp="$sample"_"$barcode"
+#     datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+#     datadir_ref=/home/garner1/Work/dataset/genomicNLP
+#     ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+#     bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+#     source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+#     echo "Start with experiment " $exp
+#     time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+# done < barcodes_$sample
+
+# sample=XZ63
+# while read line; do
+#     barcode=$line
+#     exp="$sample"_"$barcode"
+#     datadir_exp=/home/garner1/Work/dataset/genomicNLP/$exp
+#     datadir_ref=/home/garner1/Work/dataset/genomicNLP
+#     ref=/home/garner1/Work/genomes/Homo_sapiens.GRCh37.dna.primary_assembly.fa/GRCh37.fa
+#     bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.deduplicated.bam
+#     source_bamfile=/home/garner1/Work/dataset/reduced_sequencing/$sample/outdata/$barcode.sorted.bam
+#     echo "Start with experiment " $exp
+#     time bash module/process_experiment.sh $datadir_exp $datadir_ref $ref $bamfile $source_bamfile
+# done < barcodes_$sample
 
 # while read line; do	     
 #     barcode=$line

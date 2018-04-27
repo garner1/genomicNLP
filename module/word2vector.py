@@ -27,7 +27,7 @@ class MySentences(object):
                 yield line.split()
  
 sentences = MySentences(inpath) # a memory-friendly iterator
-model = gensim.models.Word2Vec(sentences,min_count=5,workers=32,window=10)
+model = gensim.models.Word2Vec(sentences,min_count=5,workers=24,window=10)
 
 model.save(outpath)
 

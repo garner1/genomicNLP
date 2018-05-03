@@ -21,7 +21,7 @@ bedtools merge -i "$cutsite"_larger.bed > "$cutsite"_merged.bed # merge bed file
 bedtools getfasta -fi $ref -bed "$cutsite"_merged.bed -bedOut -s | tr '[:lower:]' '[:upper:]' |
     LC_ALL=C grep -v N > refExtendedDoc.bed # create the bed file associated to the cutsite
 ##############
-# PROCESS THE REFERENCE BED FILE TO GENERATE A WORD2VEC MODEL 
+# TOKENIZE THE GENOME FRAGMENTS 
 # ##############
 echo 'Prepare kmer table'                          
 g++ -std=c++11 $workdir/module/kmers.cpp -o $workdir/module/kmers # compile kmers
@@ -49,7 +49,9 @@ g++ -std=c++11 $workdir/module/tokenizer_withMean.cpp -o $workdir/module/mean # 
 cd $datadir_ref/$cutsite/chr
 parallel "sed -i 's/NNNNNN//' {}" ::: *
 parallel "$workdir/module/mean {} ../6mer/{.}.table.tsv | cut -d' ' -f2- > ../docs/{.}.txt" ::: *
-
+##############
+# GENERATE A WORD2VEC MODEL 
+# ##############
 echo "Run word2vec on the reference corpus ..."    
 python $workdir/module/word2vector.py $datadir_ref/$cutsite/docs $datadir_ref/$cutsite/model
 

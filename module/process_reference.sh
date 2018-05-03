@@ -49,9 +49,4 @@ g++ -std=c++11 $workdir/module/tokenizer_withMean.cpp -o $workdir/module/mean # 
 cd $datadir_ref/$cutsite/chr
 parallel "sed -i 's/NNNNNN//' {}" ::: *
 parallel "$workdir/module/mean {} ../6mer/{.}.table.tsv | cut -d' ' -f2- > ../docs/{.}.txt" ::: *
-##############
-# GENERATE A WORD2VEC MODEL 
-# ##############
-echo "Run word2vec on the reference corpus ..."    
-python $workdir/module/word2vector.py $datadir_ref/$cutsite/docs $datadir_ref/$cutsite/model
 

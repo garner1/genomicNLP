@@ -13,23 +13,36 @@ from os import listdir
 from os.path import isfile, join
 
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+###############################################################
+import sklearn
+from sklearn import datasets
+from sklearn.feature_extraction.text import CountVectorizer
 
 inpath = sys.argv[1]
-outpath = sys.argv[2]
+cases = sklearn.datasets.load_files('/home/garner1/Work/dataset/genomicNLP/AAGCTT/docs', description=None, categories=None, load_content=True, shuffle=True, encoding='utf-8', decode_error='ignore', random_state=0)
 
-class MySentences(object):
-    def __init__(self, dirname):
-        self.dirname = dirname
- 
-    def __iter__(self):
-        for fname in os.listdir(self.dirname):
-            for line in open(os.path.join(self.dirname, fname)):
-                yield line.split()
- 
-sentences = MySentences(inpath) # a memory-friendly iterator
-model = gensim.models.Word2Vec(sentences,min_count=5,workers=24,window=10)
+vectorizer = CountVectorizer(min_df=10)
+corpus = open('/home/garner1/Work/dataset/genomicNLP/AAGCTT/docs/1.txt')
+dtm = vectorizer.fit_transform(corpus) # get document-term matrix
+vocab = vectorizer.get_feature_names() # a list
+wwm = dtm.transpose().dot(dtm)
+print ( wwm.nnz )
+###############################################################
+# inpath = sys.argv[1]
+# outpath = sys.argv[2]
 
-model.save(outpath)
+# class MySentences(object):
+#     def __init__(self, dirname):
+#         self.dirname = dirname
+ 
+#     def __iter__(self):
+#         for fname in os.listdir(self.dirname):
+#             for line in open(os.path.join(self.dirname, fname)):
+#                 yield line.split()
+ 
+# sentences = MySentences(inpath) # a memory-friendly iterator
+# model = gensim.models.Word2Vec(sentences,min_count=5,workers=24,window=10)
+# model.save(outpath)
 
 # model = gensim.models.Word2Vec.load('/home/garner1/Work/dataset/fastq2cloud/hg19/word2vec_dir/word2vec')
 # V = model.wv.vocab.keys()

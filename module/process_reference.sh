@@ -8,7 +8,7 @@ workdir=$PWD
 mkdir -p $datadir_ref/$cutsite
 
 ##############
-# PROVIDE A bed FILE ASSOCIATED TO A CUTSITE NEIGHBOROUGH
+# OUTPUT A bed FILE ASSOCIATED TO A CUTSITE NEIGHBOROUGH
 ##############
 cd $datadir_ref/$cutsite
 
